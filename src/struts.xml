@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" 
+"http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+     <constant name="struts.i18n.encoding" value="UTF-8"></constant>
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.locale" value="zh_CN" />
+    
+   
+    <package name="petstore" namespace="/" extends="struts-default">
+    
+    <interceptors>
+    <interceptor name="getRunTime" class="com.petstore.interceptor.TimerInterceptor"/> 
+    <interceptor-stack name="myStack">
+    <interceptor-ref name="defaultStack"></interceptor-ref>
+    <interceptor-ref name="getRunTime"></interceptor-ref>
+    </interceptor-stack>
+    </interceptors>
+    
+   
+
+ 
+   <action name="main" class="com.petstore.action.MainAndCommonsAction" method="main">
+     <result name="ok">/WEB-INF/jsp/catalog/Main.jsp</result>
+     <interceptor-ref name="myStack">
+     <param name="includeMethods">main</param>
+     </interceptor-ref>
+   </action>
+   
+       
+    </package>
+  <include file="struts/CatalogAction.xml"></include>
+ <include file="struts/AccountAction.xml"></include>
+ <include file="struts/MainAndCommonsAction.xml"></include>
+ <include file="struts/OrderAction.xml"></include>
+  <include file="struts/ShoppingCarAction.xml"></include>
+    <!-- Add packages here -->
+
+</struts>

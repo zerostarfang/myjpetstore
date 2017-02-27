@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+ "http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+
+    <package name="example" namespace="/" extends="struts-default">
+          <interceptors>
+      <interceptor name="getRunTime" class="com.petstore.interceptor.TimerInterceptor"/> 
+     <interceptor name="getLogin" class="com.petstore.interceptor.LoginOrNotInterceptor"></interceptor>
+     <interceptor-stack name="myStack">
+     <interceptor-ref name="defaultStack"></interceptor-ref>
+     <interceptor-ref name="getRunTime"></interceptor-ref>
+     <interceptor-ref name="getLogin"></interceptor-ref>
+     </interceptor-stack>
+     </interceptors>
+        <action name="addToCar" class="com.petstore.action.ShoppingCarAction" method="addToCar" >
+            <result name="ok">/WEB-INF/jsp/shoppingCar/Cart.jsp</result>
+            <result name="login" type="redirectAction">
+            <param name="namespace">/</param>
+            <param name="actionName">toSignonForm.action</param>
+            </result>
+            <interceptor-ref name="myStack"></interceptor-ref>
+        </action>
+        <action name="updateCartQuantities" class="com.petstore.action.ShoppingCarAction" method="updateCartQuantities" >
+            <result name="ok">/WEB-INF/jsp/shoppingCar/Cart.jsp</result>
+        </action>
+        <action name="toNewOrder" class="com.petstore.action.ShoppingCarAction" method="toNewOrder" >
+            <result name="ok">/WEB-INF/jsp/order/NewOrderForm.jsp</result>
+            <result name="toLogin">/WEB-INF/jsp/account/SignonForm.jsp</result>
+        </action>
+        
+        <action name="removeCar" class="com.petstore.action.ShoppingCarAction" method="removeCar" >
+            <result name="ok">/WEB-INF/jsp/shoppingCar/Cart.jsp</result>
+        </action>
+        
+    </package>
+</struts>

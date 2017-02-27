@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+        <hibernate-mapping package="com.petstore.domain">
+            <class name="Item" table="item" lazy="false">
+            <cache usage="read-write"/>
+                <id name="itemId" column="itemid" >
+                    <generator class="assigned"/>
+                </id>
+               
+                <property name="listPrice" column="listprice" />
+                <property name="unitCost" column="unitCost" />
+                <property name="status" column="status"/>
+                <property name="attribute1" column="attr1" />
+                <property name="attribute2" column="attr2" />
+                <property name="attribute3" column="attr3" />
+                <property name="attribute4" column="attr4" />
+                <property name="attribute5" column="attr5" />
+                <property name="quantity" column="qty" />
+                <property name="supplierId" column="supplier" />
+             
+                
+                <many-to-one name="product"
+                     class="Product"
+                     lazy="false"
+                     fetch="select"
+                     cascade="save-update">
+                     <column name="productid" not-null="true"/>
+                 </many-to-one>
+              
+              
+               
+            </class>
+            
+        </hibernate-mapping>

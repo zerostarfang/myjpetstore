@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+ "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+    <package name="account" namespace="/" extends="struts-default">
+
+        <!--<action name="HelloWorld" class="example.HelloWorld">
+            <result>/example/HelloWorld.jsp</result>
+        </action>
+
+        <action name="Login_*" method="{1}" class="example.Login">
+            <result name="input">/example/Login.jsp</result>
+            <result type="redirectAction">Menu</result>
+        </action>
+
+        <action name="*" class="example.ExampleSupport">
+            <result>/example/{1}.jsp</result>
+        </action>
+
+        --><!-- Add actions here -->
+        <action name="rand" class="com.petstore.action.AccountAction" method="rand">  
+        <result type="stream">  
+               <param name="contentType">image/jpeg</param>  
+               <param name="inputName">inputStream</param>  
+        </result>  
+      </action>  
+        
+        <action name="toSignonForm" class="com.petstore.action.AccountAction" method="toSignonForm">
+           <result name="ok">/WEB-INF/jsp/account/SignonForm.jsp</result>
+          
+        </action>
+        
+        
+        <action name="login" class="com.petstore.action.AccountAction" method="login">
+           <result name="loginFail">/WEB-INF/jsp/account/SignonForm.jsp</result>
+           <result name="loginSuccess">/WEB-INF/jsp/catalog/Main.jsp</result>
+<!--           <result name="wait">/WEB-INF/jsp/wait.jsp</result>-->
+<!--           <interceptor-ref name="defaultStack"></interceptor-ref>-->
+<!--           <interceptor-ref name="execAndWait"></interceptor-ref>-->
+           
+        </action>
+        
+        <action name="toRegister" class="com.petstore.action.AccountAction" method="toRegister">
+           <result name="ok">/WEB-INF/jsp/account/NewAccountForm.jsp</result>
+        </action>
+        <action name="register" class="com.petstore.action.AccountAction" method="register">
+           <result name="ok">/WEB-INF/jsp/account/SignonForm.jsp</result>
+           <result name="input">/WEB-INF/jsp/account/NewAccountForm.jsp</result>
+        </action>
+         <action name="toEditAccount" class="com.petstore.action.AccountAction" method="toEditAccount">
+           <result name="ok">/WEB-INF/jsp/account/EditAccountForm.jsp</result>
+        </action>
+        
+        <action name="editAccount" class="com.petstore.action.AccountAction" method="editAccount">
+           <result name="ok">/WEB-INF/jsp/account/SignonForm.jsp</result>
+        </action>
+        <action name="userExist" class="com.petstore.action.AccountAction" method="userExist"/>
+      <action name="loginOut" class="com.petstore.action.AccountAction" method="loginOut">
+           <result name="ok">/WEB-INF/jsp/catalog/Main.jsp</result>
+        </action>
+      
+        
+    </package>
+</struts>

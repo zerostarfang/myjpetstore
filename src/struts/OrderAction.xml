@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" 
+"http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+
+    <package name="order" namespace="/" extends="struts-default">
+
+       <interceptors>
+     <interceptor name="getRunTime" class="com.petstore.interceptor.TimerInterceptor"/> 
+     <interceptor name="getLogin" class="com.petstore.interceptor.LoginOrNotInterceptor"></interceptor>
+     <interceptor-stack name="myStack">
+     <interceptor-ref name="defaultStack"></interceptor-ref>
+     <interceptor-ref name="getRunTime"></interceptor-ref>
+     <interceptor-ref name="getLogin"></interceptor-ref>
+     </interceptor-stack>
+     </interceptors>
+         <!-- Add actions here -->
+        <action name="toCar" class="com.petstore.action.OrderAction" method="toCar">
+          <result name="ok">/WEB-INF/jsp/shoppingCar/Cart.jsp</result>
+            <result name="login" type="redirectAction">
+            <param name="namespace">/</param>
+            <param name="actionName">toSignonForm.action</param>
+            </result>
+<!--          type="redirect-action"actionName不需要后缀名而type="redirectAction"就要后缀名了-->
+<!--          -->
+<!--          <param name="actionName">toSignonForm</param>-->
+<!--          <param name="namespace"></param>-->
+<!--          </result>-->
+           <interceptor-ref name="myStack"></interceptor-ref>
+        </action>
+        
+      
+         
+    </package>
+</struts>

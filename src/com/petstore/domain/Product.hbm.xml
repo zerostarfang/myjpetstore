@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+        <hibernate-mapping package="com.petstore.domain">
+            <class name="Product" table="product" >
+            <cache usage="read-write"/>
+                <id name="productId" column="productId" >
+                    <generator class="assigned"/>
+                </id>
+               
+                <property name="name" column="name" />
+                <property name="description" column="descn" />
+                
+                <many-to-one name="category"
+                     class="Category"
+                     fetch="select"
+                     cascade="save-update"
+                    
+                     >
+                <column name="catid" not-null="true"/>
+              </many-to-one>
+              
+              <set name="items" cascade="all" inverse="true" fetch="join">
+              <key column="productid" not-null="true"></key>
+              <one-to-many class="Item" />
+              </set>
+               
+            </class>
+            
+        </hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        
+        <hibernate-mapping package="com.petstore.domain">
+            <class name="Account" table="account_new" >
+               <cache usage="read-write"/>
+            
+                <id name="username" column="userid" >
+                    <generator class="assigned"/>
+                </id>
+               
+                <property name="email" column="email" />
+                <property name="firstName" column="firstname" />
+                <property name="lastName" column="lastname" />
+                <property name="status" column="status" />
+                <property name="address1" column="addr1" />
+                <property name="address2" column="addr2" />
+                <property name="city" column="city" />
+                <property name="state" column="state" />
+                <property name="zip" column="zip" />
+                <property name="country" column="country" />
+                <property name="phone" column="phone" />
+                 <property name="password" column="password"/>
+                <property name="languagePreference" column="langpref" />
+                 <property name="favouriteCategoryId" column="favcategory" />
+                <property name="listOption" column="mylistopt" />
+                <property name="bannerOption" column="banneropt" />
+  
+            </class>
+            
+        </hibernate-mapping>

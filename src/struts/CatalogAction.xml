@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" 
+"http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+
+    <package name="Catalog" namespace="/" extends="struts-default">
+
+        <!--<action name="HelloWorld" class="example.HelloWorld">
+            <result>/example/HelloWorld.jsp</result>
+        </action>
+
+        <action name="Login_*" method="{1}" class="example.Login">
+            <result name="input">/example/Login.jsp</result>
+            <result type="redirectAction">Menu</result>
+        </action>
+
+        <action name="*" class="example.ExampleSupport">
+            <result>/example/{1}.jsp</result>
+        </action>
+
+        --><!-- Add actions here -->
+        <action name="showTip" class="com.petstore.action.CatalogAction" method="showTip" />
+        
+        
+        
+        
+        
+        <action name="toCategory" class="com.petstore.action.CatalogAction" method="toCategory" >
+           <result name="ok">/WEB-INF/jsp/catalog/Category.jsp</result>
+        </action>
+        <action name="toProduct" class="com.petstore.action.CatalogAction" method="toProduct" >
+           <result name="ok">/WEB-INF/jsp/catalog/Product.jsp</result>
+        </action>
+        <action name="toItem" class="com.petstore.action.CatalogAction" method="toItem" >
+           <result name="ok">/WEB-INF/jsp/catalog/Item.jsp</result>
+        </action>
+        
+        <action name="search" class="com.petstore.action.CatalogAction" method="search" >
+           <result name="ok">/WEB-INF/jsp/catalog/SearchProducts.jsp</result>
+        </action>
+              
+    </package>
+</struts>

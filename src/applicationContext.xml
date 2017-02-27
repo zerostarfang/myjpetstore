@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<context:annotation-config />
+<!--	这句是要使用ioc的注解所要加的话-->
+	<context:component-scan base-package="com.petstore"/>
+<!--	这句是用于在hibernate中扫描类的-->
+ 	<aop:aspectj-autoproxy />
+<!-- 	加这句就可以使用aop的aspectj了（注解）但aop一般不用注解而用xml来配置-->
+ 
+
+                            <!--添加datasourse 应用了ioc      1      -->
+                            
+                    
+  <bean id="myDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/jpetstore" />
+		<property name="username" value="root" />
+		<property name="password" value="fangwei" />
+		<property name="maxActive">
+			<value>100</value>
+		</property>
+		<property name="maxWait">
+			<value>3000</value>
+		</property>
+		<property name="maxIdle">
+			<value>20</value>
+		</property>
+		<property name="defaultAutoCommit">
+			<value>false</value>
+		</property>
+		</bean>
+
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <property name="dataSource" ref="myDataSource"/>
+    
+    <!--
+    <property name="annotionClass">
+      <list>
+        <value>com.hulei.po.UserInfo</value>
+      </list>
+    </property>
+    <property name="mappingResource">
+      <list>
+        <value>每个用于hibernate给每个po所写的xml文件</value>
+      </list>
+    </property>
+    
+    -->
+    <!--<property name="packagesToScan">
+			<list>
+				<value>com.petstore.domain</value>
+			
+			</list>
+			</property>
+			-->
+			<property name="mappingDirectoryLocations">
+			<list>
+				<value>classpath:com/petstore/domain</value>
+			</list>
+		</property>
+		
+<!--		这个属性代替了上面的annotionClass直接会在po下扫描而不需要每个po对象都要配置一次-->
+
+
+
+	<property name="hibernateProperties">
+
+		<props>
+			<prop key="hibernate.dialect">
+				org.hibernate.dialect.MySQLDialect
+				</prop>
+			<prop key="hibernate.show_sql">true</prop>
+			
+			<prop key="hibernate.jdbc.use_scrollable_resultset">
+					true
+				</prop>
+				<prop key="hibernate.query.substitutions">1</prop>
+				<prop key="hibernate.connection.provider_class">
+					org.hibernate.connection.DatasourceConnectionProvider
+				</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.jdbc.batch_size">25</prop>
+				<prop key="hibernate.jdbc.batch_versioned_data">
+					true
+				</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">
+					true
+				</prop>
+			
+				<prop key="hibernate.jdbc.use_get_generated_keys">
+					true
+				</prop>
+				<prop key="hibernate.jdbc.AutoCommit">
+					true
+				</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+		 		<prop key="hibernate.show_sql">true</prop>
+			<!--<prop key="cache.use_second_level_cache">
+				true
+				</prop>
+			 <prop key="cache.region.factory_class">
+				org.hibernate.cache.EhCacheRegionFactory
+				</prop>
+				<prop key="generate_statistics">
+				true
+				</prop>
+			
+		--></props>
+		
+		 
+
+	</property>
+  </bean>
+  
+  
+  
+  
+                     <!--      添加事务,应用了aop                 2-->
+  <bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<aop:config>
+		<aop:pointcut id="bussinessService"
+			expression="execution(public * com.pestore.service..*.*(..))" />
+		<aop:advisor pointcut-ref="bussinessService"
+			advice-ref="txAdvice" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+<!--			<tx:method name="exist" read-only="true"/>-->
+			      <tx:method name="add*"  propagation="REQUIRED"/>
+<!--			REQUIRED主要是用于开启sessionFactory的如果已经有开启了的直接用  没有开启的的就开一个sessionFactory-->
+		</tx:attributes>
+	</tx:advice>
+	
+<!--	注入hibernateTemplate来简化对数据库的操作                3            -->
+	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+	<property name="sessionFactory" ref="sessionFactory">
+	</property>
+	
+	</bean>
+
+    
+</beans>
